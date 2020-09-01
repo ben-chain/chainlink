@@ -8,7 +8,9 @@
   "private": false,
   "scripts": {
     "compile": "belt compile all",
+    "compile:ovm": "SOLCJS_PATH='@eth-optimism/solc' yarn compile",
     "compile:clean": "yarn clean && yarn compile",
+    "compile:ovm:clean": "yarn clean && yarn compile:ovm",
     "setup": "yarn compile:clean && tsc -b tsconfig.test.json tsconfig.ethers.json",
     "clean": "tsc -b --clean tsconfig.test.json tsconfig.ethers.json && rm -rf abi ethers truffle",
     "pretest": "tsc -b --clean tsconfig.ethers.json",
