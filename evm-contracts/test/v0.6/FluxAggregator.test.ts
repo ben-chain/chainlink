@@ -31,7 +31,7 @@ beforeAll(async () => {
   personas = await setup.users(provider).then(x => x.personas)
 })
 
-describe('FluxAggregator', () => {
+describe.only('FluxAggregator', () => {
   const paymentAmount = h.toWei('3')
   const deposit = h.toWei('100')
   const answer = 100
@@ -1207,7 +1207,8 @@ describe('FluxAggregator', () => {
             .changeOracles([], addresses, addresses, 1, oracles.length, rrDelay)
         })
 
-        it('not use too much gas', async () => {
+        jest.setTimeout(160000);
+        it.only('not use too much gas', async () => {
           let tx: any
           assert.deepEqual(
             // test adveserial quickselect algo
