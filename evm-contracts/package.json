@@ -7,11 +7,14 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "compile": "belt compile all",
+    "compile": "yarn clean && belt compile all",
+    "compile:ovm": "yarn clean && belt compile solc-ovm",
     "setup": "yarn compile && tsc -b tsconfig.test.json tsconfig.ethers.json",
+    "setup:ovm": "yarn compile:ovm && tsc -b tsconfig.test.json tsconfig.ethers.json",
     "clean": "tsc -b --clean tsconfig.test.json tsconfig.ethers.json && rm -rf abi ethers truffle",
     "pretest": "tsc -b --clean tsconfig.ethers.json",
-    "test": "jest --testTimeout 80000 --forceExit",
+    "test": "env USE_OVM=false jest --testTimeout 160000 --forceExit",
+    "test:ovm": "env USE_OVM=true jest --testTimeout 160000 --forceExit",
     "test:flux": "jest --testTimeout 80000 -t=*tes the allocated and avail*",
     "test:ci": "./scripts/test_ci",
     "prepublishOnly": "yarn clean && yarn setup && yarn test:ci && yarn setup"
