@@ -273,7 +273,7 @@ describe('FluxAggregator', () => {
     ])
   })
 
-  describe('#constructor', () => {
+  describe.only('#constructor', () => {
     it('sets the paymentAmount', async () => {
       matchers.bigNum(
         ethers.utils.bigNumberify(paymentAmount),
@@ -1239,7 +1239,7 @@ describe('FluxAggregator', () => {
         })
 
         jest.setTimeout(160000);
-        it.only('not use too much gas', async () => {
+        it('not use too much gas', async () => {
           log.debug(`in the start`)
           let tx: any
           assert.deepEqual(

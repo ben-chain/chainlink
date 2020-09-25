@@ -35,7 +35,7 @@ Chainlink artifact saved!
       name: 'compiler',
       description:
         'Compile solidity smart contracts and output their artifacts',
-      options: ['solc', 'ethers', 'truffle', 'solc-ovm', 'all'],
+      options: ['solc', 'ethers', 'truffle', 'all', 'all:ovm'],
     },
   ]
 
@@ -48,10 +48,15 @@ Chainlink artifact saved!
     try {
       const config = await import('../services/config')
       const conf = config.load(flags.config)
-      const compilation =
-        args.compiler === 'all'
-          ? this.compileAll(conf)
-          : this.compileSingle(args.compiler, conf)
+
+      let compilation
+      if (args.compiler.includes('all')) {
+        compilation = args.compiler.includes('ovm')
+          ? this.compileAllOvm(conf)
+          : this.compileAll(conf)
+      } else {
+        compilation = this.compileSingle(args.compiler, conf)
+      }
 
       await compilation
     } catch (e) {
@@ -72,6 +77,16 @@ Chainlink artifact saved!
     const compilers = await import('../services/compilers')
 
     await compilers.solc.compileAll(conf)
+    await Promise.all([
+      compilers.truffle.compileAll(conf),
+      compilers.ethers.compileAll(conf),
+    ])
+  }
+
+  private async compileAllOvm(conf: App) {
+    const compilers = await import('../services/compilers')
+
+    await compilers.solc_ovm.compileAll(conf)
     await Promise.all([
       compilers.truffle.compileAll(conf),
       compilers.ethers.compileAll(conf),

@@ -8,7 +8,7 @@
   "private": false,
   "scripts": {
     "compile": "yarn clean && belt compile all",
-    "compile:ovm": "yarn clean && belt compile solc-ovm",
+    "compile:ovm": "yarn clean && belt compile all:ovm",
     "setup": "yarn compile && tsc -b tsconfig.test.json tsconfig.ethers.json",
     "setup:ovm": "yarn compile:ovm && tsc -b tsconfig.test.json tsconfig.ethers.json",
     "clean": "tsc -b --clean tsconfig.test.json tsconfig.ethers.json && rm -rf abi ethers truffle",
@@ -39,5 +39,4 @@
     "@truffle/contract": "^4.2.6",
     "ethers": "^4.0.45"
   }
-
 }
