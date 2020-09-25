@@ -218,10 +218,17 @@ describe('FluxAggregator', () => {
     log.debug(`deployment complete`)
   })
 
+  let snapshot: any
+  beforeAll(async () => {
+    await deployment()
+    snapshot = await provider.send('evm_snapshot', [])
+  })
+
   beforeEach(async () => {
     log.debug(`in beforeEach`)
-    await deployment()
     nextRound = 1
+    await provider.send('evm_revert', snapshot)
+    snapshot = await provider.send('evm_snapshot', [])
     log.debug(`leaving beforeEach`)
   })
 
@@ -273,7 +280,7 @@ describe('FluxAggregator', () => {
     ])
   })
 
-  describe.only('#constructor', () => {
+  describe('#constructor', () => {
     it('sets the paymentAmount', async () => {
       matchers.bigNum(
         ethers.utils.bigNumberify(paymentAmount),
