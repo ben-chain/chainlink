@@ -45,7 +45,7 @@ beforeAll(async () => {
   log.debug(`setup personas`)
 })
 
-describe.only('FluxAggregator', () => {
+describe('FluxAggregator', () => {
   const paymentAmount = h.toWei('3')
   const deposit = h.toWei('100')
   const answer = 100

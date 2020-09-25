@@ -35,7 +35,7 @@ Chainlink artifact saved!
       name: 'compiler',
       description:
         'Compile solidity smart contracts and output their artifacts',
-      options: ['solc', 'ethers', 'truffle', 'all'],
+      options: ['solc', 'ethers', 'truffle', 'solc-ovm', 'all'],
     },
   ]
 

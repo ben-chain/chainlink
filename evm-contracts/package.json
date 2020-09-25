@@ -13,9 +13,8 @@
     "setup:ovm": "yarn compile:ovm && tsc -b tsconfig.test.json tsconfig.ethers.json",
     "clean": "tsc -b --clean tsconfig.test.json tsconfig.ethers.json && rm -rf abi ethers truffle",
     "pretest": "tsc -b --clean tsconfig.ethers.json",
-    "test": "env USE_OVM=false jest --testTimeout 160000 --forceExit",
-    "test:ovm": "env USE_OVM=true jest --testTimeout 160000 --forceExit",
-    "test:flux": "jest --testTimeout 80000 -t=*tes the allocated and avail*",
+    "test": "env USE_OVM=false jest --testTimeout 160000 --forceExit FluxAggregator",
+    "test:ovm": "env USE_OVM=true jest --testTimeout 160000 --forceExit FluxAggregator",
     "test:ci": "./scripts/test_ci",
     "prepublishOnly": "yarn clean && yarn setup && yarn test:ci && yarn setup"
   },
@@ -40,4 +39,5 @@
     "@truffle/contract": "^4.2.6",
     "ethers": "^4.0.45"
   }
+
 }
