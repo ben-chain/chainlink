@@ -44,7 +44,6 @@ export function provider(): ethers.providers.JsonRpcProvider {
     providerEngine.addProvider(revertTraceSubprovider)
   }
 
-  console.log(`env is ${process.env.USE_OVM}`)
   if (process.env.USE_OVM == 'true') {
     providerEngine.addProvider(new OVMGanacheSubprovider({ gasLimit: 2_000_000_000, allowUnlimitedContractSize: true }))
   } else {
