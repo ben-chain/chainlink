@@ -29,7 +29,8 @@ export function provider(): ethers.providers.JsonRpcProvider {
   const providerEngine = new Web3ProviderEngine()
   providerEngine.addProvider(new FakeGasEstimateSubprovider(1_900 * 10 ** 6)) // Ganache does a poor job of estimating gas, so just crank it up for testing.
 
-  if (process.env.DEBUG) {
+  // if (process.env.DEBUG) {
+  if (false) {
     debug('Debugging enabled, using sol-trace module...')
     const defaultFromAddress = ''
     const artifactAdapter = new SolCompilerArtifactAdapter(

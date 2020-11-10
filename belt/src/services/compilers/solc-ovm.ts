@@ -43,14 +43,18 @@ function compiler(
 ) {
   const _d = d.extend('compiler')
   // remove our custom versions property
-  const compilerSettingCopy: config.App['compilerSettings'] = JSON.parse(
+  // const compilerSettingCopy: config.App['compilerSettings'] = JSON.parse(
+  const compilerSettingCopy: any = JSON.parse(
     JSON.stringify(compilerSettings),
   )
   delete compilerSettingCopy.versions
 
+  // OVM changes: enable optimizer to minimize code size, update version string to be detected by forked 0x/sol-compiler
+  compilerSettingCopy.optimizer = {
+    runs: 1,
+    enabled: true
+  }
   solcVersion += '_ovm'
-
-  console.log('added to solc version')
 
   const settings: CompilerOptions = {
     artifactsDir: join(artifactsDir, subDir),
