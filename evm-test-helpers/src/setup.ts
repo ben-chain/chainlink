@@ -13,6 +13,7 @@ import {
 import {
   FakeGasEstimateSubprovider,
   GanacheSubprovider,
+  OVMGanacheSubprovider
 } from '@0x/subproviders'
 import { ethers } from 'ethers'
 import * as path from 'path'
@@ -26,9 +27,10 @@ const debug = makeDebug('helpers')
  */
 export function provider(): ethers.providers.JsonRpcProvider {
   const providerEngine = new Web3ProviderEngine()
-  providerEngine.addProvider(new FakeGasEstimateSubprovider(5 * 10 ** 6)) // Ganache does a poor job of estimating gas, so just crank it up for testing.
+  providerEngine.addProvider(new FakeGasEstimateSubprovider(1_900 * 10 ** 6)) // Ganache does a poor job of estimating gas, so just crank it up for testing.
 
-  if (process.env.DEBUG) {
+  // if (process.env.DEBUG) {
+  if (false) {
     debug('Debugging enabled, using sol-trace module...')
     const defaultFromAddress = ''
     const artifactAdapter = new SolCompilerArtifactAdapter(
@@ -43,7 +45,12 @@ export function provider(): ethers.providers.JsonRpcProvider {
     providerEngine.addProvider(revertTraceSubprovider)
   }
 
-  providerEngine.addProvider(new GanacheSubprovider({ gasLimit: 8_000_000 }))
+  if (process.env.USE_OVM == 'true') {
+    providerEngine.addProvider(new OVMGanacheSubprovider({ gasLimit: 2_000_000_000, allowUnlimitedContractSize: true }))
+  } else {
+    providerEngine.addProvider(new GanacheSubprovider({ gasLimit: 2_000_000_000, allowUnlimitedContractSize: true, gasPrice: 0 }))
+  }
+
   providerEngine.start()
 
   return new ethers.providers.Web3Provider(providerEngine)

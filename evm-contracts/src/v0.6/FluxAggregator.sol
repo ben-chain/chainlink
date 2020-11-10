@@ -1,4 +1,4 @@
-pragma solidity 0.6.6;
+pragma solidity 0.6.12;
 
 import "./Median.sol";
 import "./Owned.sol";
@@ -671,7 +671,8 @@ contract FluxAggregator is AggregatorV2V3Interface, Owned {
       uint128 _paymentAmount
     )
   {
-    require(msg.sender == tx.origin, "off-chain reading only");
+    // OVM: no tx origin allowed.  Is this check strictly necessary?
+    // require(msg.sender == tx.origin, "off-chain reading only");
 
     if (_queriedRoundId > 0) {
       Round storage round = rounds[_queriedRoundId];

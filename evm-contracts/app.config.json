@@ -5,14 +5,13 @@
   "useDockerisedSolc": false,
   "compilerSettings": {
     "optimizer": {
-      "runs": 1000000,
-      "enabled": true
+      "runs": 1,
+      "enabled": false
     },
     "versions": {
       "v0.4": "0.4.24",
       "v0.5": "0.5.0",
-      "v0.6": "0.6.6",
-      "dev_v0.7": "0.7.0"
+      "v0.6": "0.6.12"
     }
   },
   "publicVersions": ["0.4.24", "0.5.0"]

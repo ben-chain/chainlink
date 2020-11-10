@@ -1,4 +1,4 @@
-pragma solidity 0.6.6;
+pragma solidity 0.6.12;
 
 /**
  * @title BlockhashStore
@@ -19,7 +19,9 @@ contract BlockhashStore {
    * @param n the number of the block whose blockhash should be stored
    */
   function store(uint256 n) public {
-    bytes32 h = blockhash(n);
+    // OVM CHANGE: no block hash
+    // bytes32 h = blockhash(n);
+    bytes32 h = keccak256(abi.encode(block.timestamp));
     require(h != 0x0, "blockhash(n) failed");
     s_blockhashes[n] = h;
   }
@@ -69,9 +71,10 @@ contract BlockhashStore {
    * @notice gets a blockhash from the store. If no hash is known, this function reverts.
    * @param n the number of the block whose blockhash should be returned
    */
-  function getBlockhash(uint256 n) external view returns (bytes32) {
-    bytes32 h = s_blockhashes[n];
-    require(h != 0x0, "blockhash not found in store");
-    return h;
-  }
+  // OVM CHANGE: no blockhash
+  // function getBlockhash(uint256 n) external view returns (bytes32) {
+  //   bytes32 h = s_blockhashes[n];
+  //   require(h != 0x0, "blockhash not found in store");
+  //   return h;
+  // }
 }

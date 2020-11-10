@@ -6,7 +6,9 @@
  */
 import { ethers } from 'ethers'
 import { JsonRpcProvider } from 'ethers/providers'
+import { wallet } from '.'
 import { makeDebug } from './debug'
+import { isOVM } from './helpers'
 
 interface RCreateFundedWallet {
   /**
@@ -73,6 +75,7 @@ export async function fundWallet(
   provider: ethers.providers.JsonRpcProvider,
   overrides?: Omit<ethers.providers.TransactionRequest, 'to' | 'from'>,
 ): Promise<ethers.providers.TransactionReceipt> {
+
   const debug = makeDebug('wallet:fundWallet')
   debug('funding wallet')
 
@@ -83,11 +86,15 @@ export async function fundWallet(
 
   const signer = provider.getSigner(nodeOwnedAccounts[0])
 
+  // OVM changes: no value is needed to send transactions, so make this a dummy tx. (easier than messing with return types)
   const txParams: ethers.providers.TransactionRequest = {
     to: wallet.address,
-    value: ethers.utils.parseEther('10'),
+    value: isOVM() ? 0 : ethers.utils.parseEther('10'), // OVM has no native ETH/value.
     ...overrides,
   }
+
+  if (isOVM()) { txParams.data = '0x0000' } // OVM transactions need some data to succeed.
+
   debug('sending tx with the following parameters: %o', txParams)
   const tx = await signer.sendTransaction(txParams)
 

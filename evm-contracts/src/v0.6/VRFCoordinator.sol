@@ -1,4 +1,4 @@
-pragma solidity 0.6.6;
+pragma solidity 0.6.12;
 
 import "./vendor/SafeMath.sol";
 
@@ -237,11 +237,14 @@ contract VRFCoordinator is VRF, VRFRequestIDBase {
     require(callback.seedAndBlockNum == keccak256(abi.encodePacked(preSeed,
       blockNum)), "wrong preSeed or block num");
 
-    bytes32 blockHash = blockhash(blockNum);
-    if (blockHash == bytes32(0)) {
-      blockHash = blockHashStore.getBlockhash(blockNum);
-      require(blockHash != bytes32(0), "please prove blockhash");
-    }
+    // OVM CHANGE: No blockhash()
+    // bytes32 blockHash = blockhash(blockNum);
+    // if (blockHash == bytes32(0)) {
+    //   blockHash = blockHashStore.getBlockhash(blockNum);
+    //   require(blockHash != bytes32(0), "please prove blockhash");
+    // }
+    bytes32 blockHash = keccak256(abi.encode(block.timestamp));
+
     // The seed actually used by the VRF machinery, mixing in the blockhash
     uint256 actualSeed = uint256(keccak256(abi.encodePacked(preSeed, blockHash)));
     // solhint-disable-next-line no-inline-assembly
